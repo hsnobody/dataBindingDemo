@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <!--<import type="com.example.User"/>-->
+        <variable name="user" type="com.example.User"/>
+    </data>
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <!--Automatic Setters
+            属于Spinner有个函数setAdapter,
+            属性adapter与 它里面的setAdapter函数对应的，
+            属性就是前面加个set  然后第一个字母大写对应的，-->
+        <Spinner
+                  app:adapter="@{user.aaadapter}"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  />
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="@{user.firstName}"
+                  />
+        <!--renamed setters-->
+        <!-- renamedSettersText属性 被重命名了 与 setText函数对应也就是属性android:text对应
+        User类中
+        @BindingMethods({
+        @BindingMethod(type = android.widget.TextView.class,
+        attribute = "android:renamedSettersText",
+        method = "setText"),
+        }) 建立了这种关系 -->
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  app:renamedSettersText="@{user.lastName}"
+                  />
+        <!--Custom Setters-->
+        <!--自定义setter-->
+        <!--user.age的值变化会引发 app:customerAge 对应的函数 setCustomerAge执行-->
+        <!--，但是找不到 TextView对应的setCustomerAge执行，就在User中找到 @BindingAdapter对应的属性值-->
+        <!--customerAge声明对应的函数 setCustomerAge-->
+
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  app:customerAge="@{user.age}"
+        />
+        <!--用于触发改变了值-->
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="test Automatic Setters"
+                android:onClick="testAutomaticSetters"/>
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="test Renamed Setters"
+                android:onClick="testRenamedSetters"/>
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="test Customer Setters"
+                android:onClick="testCustomerSetters"/>
+
+    </LinearLayout>
+</layout>
